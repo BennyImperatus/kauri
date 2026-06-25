@@ -1,0 +1,11 @@
+{
+  "groupId": 35402176,
+  "roles": [
+    {
+      "name": "[CDEV] Chief Developer",
+      "label": "Chief Developer",
+      "accent": "roblox",
+      "description": "Builds core systems, tools, and technical features for the community."
+    }
+  ]
+}

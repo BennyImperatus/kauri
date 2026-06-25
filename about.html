@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kauri - About</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #10b981 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: white;
+            color: #064e3b;
+            font-weight: 700;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 900px;
+            width: 100%;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.9s ease-out 0.2s both;
+        }
+
+        .content h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+
+        .content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .img-card {
+            position: relative;
+            border-radius: 22px;
+            overflow: hidden;
+            min-height: 260px;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+            isolation: isolate;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .img-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent 35%),
+                radial-gradient(circle at top right, rgba(16, 185, 129, 0.35), transparent 45%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .img-card::after {
+            content: "";
+            position: absolute;
+            inset: -30%;
+            background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+            transform: translateX(-120%) rotate(14deg);
+            opacity: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .img-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .img-card:hover::after {
+            animation: imageSweep 0.95s ease-out forwards;
+        }
+
+        .img-card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+            transform: scale(1.01);
+            filter: saturate(1.08) contrast(1.04);
+            transition: transform 0.45s ease, filter 0.45s ease;
+        }
+
+        .img-card:hover img {
+            transform: scale(1.08);
+            filter: saturate(1.18) contrast(1.08);
+        }
+
+        .img-tag {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 3;
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(6, 78, 59, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .img-caption {
+            position: absolute;
+            left: 1rem;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 3;
+            padding: 1rem 1.1rem;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(6, 78, 59, 0.12), rgba(3, 31, 24, 0.82));
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(10px);
+        }
+
+        .img-caption strong {
+            display: block;
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+
+        .img-caption span {
+            display: block;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            opacity: 0.92;
+        }
+
+        .img-card.theme-community::before {
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 36%),
+                radial-gradient(circle at top right, rgba(16, 185, 129, 0.45), transparent 46%);
+        }
+
+        .img-card.theme-roblox::before {
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 34%),
+                radial-gradient(circle at top right, rgba(59, 130, 246, 0.36), transparent 46%);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin: 3rem 0 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-intro {
+            font-size: 1rem;
+            line-height: 1.75;
+            opacity: 0.92;
+            margin-bottom: 1.5rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .team-status {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.85;
+            margin-bottom: 1.25rem;
+        }
+
+        .member-card {
+            position: relative;
+            padding: 1.4rem;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .member-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 40%),
+                radial-gradient(circle at top right, rgba(16, 185, 129, 0.22), transparent 45%);
+            pointer-events: none;
+        }
+
+        .member-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .member-card.empty {
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .member-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .member-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: white;
+            background: linear-gradient(135deg, #10b981, #047857);
+            box-shadow: 0 10px 24px rgba(16, 185, 129, 0.3);
+            flex-shrink: 0;
+        }
+
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 18px;
+        }
+
+        .member-avatar.discord {
+            background: linear-gradient(135deg, #818cf8, #4f46e5);
+            box-shadow: 0 10px 24px rgba(99, 102, 241, 0.3);
+        }
+
+        .member-avatar.roblox {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            box-shadow: 0 10px 24px rgba(245, 158, 11, 0.28);
+        }
+
+        .member-info strong {
+            display: block;
+            font-size: 1.08rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .member-username {
+            display: block;
+            font-size: 0.82rem;
+            opacity: 0.72;
+            margin-top: 0.35rem;
+        }
+
+        .member-role {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.28rem 0.65rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .member-desc {
+            position: relative;
+            z-index: 1;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            opacity: 0.92;
+            margin-bottom: 1rem;
+        }
+
+        .member-tags {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+        }
+
+        .member-tags span {
+            padding: 0.36rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        footer {
+            margin-top: 3rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Kauri Logo: Pulse + Glow */
+        @keyframes kauriPulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+            }
+            50% {
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 16px rgba(16, 185, 129, 0.9));
+            }
+        }
+
+        @keyframes imageSweep {
+            0% {
+                transform: translateX(-120%) rotate(14deg);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(120%) rotate(14deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .content {
+                padding: 2rem;
+            }
+            .content h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" style="display:flex;align-items:center;gap:0.6rem;">
+            <img src="kauri-logo.png" alt="Kauri" style="width:28px;height:28px;object-fit:contain;animation:kauriPulse 2s ease-in-out infinite;">
+            Home
+        </a>
+        <a href="about.html" class="active">About</a>
+        <a href="roblox.html">Roblox</a>
+        <a href="discord.html">Discord</a>
+        <a href="follow.html">Follow</a>
+    </nav>
+
+    <div class="content">
+        <h1>About Us</h1>
+        <p>Kauri is a vibrant community built around friendship, fun, and gaming. We started as a small group of friends playing Roblox together and have grown into a welcoming community for everyone. Whether you're a casual player or a serious gamer, you'll find your place here.</p>
+        <p>Our mission is to create a safe, inclusive space where people can connect, share experiences, and make lasting memories together. We host regular events, game nights, and giveaways for our members.</p>
+        <h2 class="section-title">Meet The Team</h2>
+        <p class="section-intro">The people behind Kauri keep the community active, welcoming, and full of energy. Each person helps shape the vibe in a different way.</p>
+        <p class="team-status" id="team-status">Loading live team data from Roblox...</p>
+        <div class="team-grid" id="team-grid">
+            <div class="member-card empty">
+                <div class="member-top">
+                    <div class="member-avatar roblox">RB</div>
+                    <div class="member-info">
+                        <strong>Syncing Team</strong>
+                        <span class="member-role">Roblox Live Data</span>
+                    </div>
+                </div>
+                <p class="member-desc">The team section is pulling members from your configured Roblox group and role.</p>
+                <div class="member-tags">
+                    <span>Group 35402176</span>
+                    <span>[CDEV] Chief Developer</span>
+                </div>
+            </div>
+        </div>
+        <div class="image-grid">
+            <div class="img-card theme-community">
+                <span class="img-tag">Community</span>
+                <img src="https://coreva-normal.trae.ai/api/ide/v1/text_to_image?prompt=friendly%20gaming%20community%20gathering%20together%20online%20happy%20people%20playing%20games&image_size=square_hd" alt="Community">
+                <div class="img-caption">
+                    <strong>Friendly Vibes</strong>
+                    <span>Zeigt die offene Community-Seite von Kauri mit mehr Tiefe und Glow.</span>
+                </div>
+            </div>
+            <div class="img-card theme-roblox">
+                <span class="img-tag">Roblox Roots</span>
+                <img src="https://coreva-normal.trae.ai/api/ide/v1/text_to_image?prompt=colorful%20Roblox%20gaming%20scene%20virtual%20world%20adventure&image_size=square_hd" alt="Roblox">
+                <div class="img-caption">
+                    <strong>Creative Energy</strong>
+                    <span>Hebt den Ursprung der Gruppe hervor und macht das Motiv deutlich cineastischer.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Kauri. All rights reserved.
+    </footer>
+
+    <script>
+        const teamGrid = document.getElementById("team-grid");
+        const teamStatus = document.getElementById("team-status");
+
+        function escapeHtml(value) {
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function getInitials(name) {
+            return String(name || "")
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((part) => part[0])
+                .join("")
+                .toUpperCase() || "RB";
+        }
+
+        function renderMemberCard(member) {
+            const primaryRole = member.roles[0] || {};
+            const accentClass = primaryRole.accent ? ` ${primaryRole.accent}` : "";
+            const avatar = member.avatarUrl
+                ? `<img src="${escapeHtml(member.avatarUrl)}" alt="${escapeHtml(member.displayName)}">`
+                : escapeHtml(getInitials(member.displayName || member.username));
+            const roleTags = member.roles
+                .map((role) => `<span>${escapeHtml(role.label || role.name)}</span>`)
+                .join("");
+
+            return `
+                <div class="member-card">
+                    <div class="member-top">
+                        <div class="member-avatar${accentClass}">${avatar}</div>
+                        <div class="member-info">
+                            <strong>${escapeHtml(member.displayName || member.username)}</strong>
+                            <span class="member-role">${escapeHtml(primaryRole.label || primaryRole.name || "Team")}</span>
+                            <span class="member-username">@${escapeHtml(member.username)}</span>
+                        </div>
+                    </div>
+                    <p class="member-desc">${escapeHtml(primaryRole.description || "Live synced from Roblox group roles.")}</p>
+                    <div class="member-tags">${roleTags}</div>
+                </div>
+            `;
+        }
+
+        function renderEmptyState(message) {
+            teamGrid.innerHTML = `
+                <div class="member-card empty">
+                    <div class="member-top">
+                        <div class="member-avatar roblox">RB</div>
+                        <div class="member-info">
+                            <strong>No Team Members Found</strong>
+                            <span class="member-role">Roblox Sync</span>
+                        </div>
+                    </div>
+                    <p class="member-desc">${escapeHtml(message)}</p>
+                    <div class="member-tags">
+                        <span>Group 35402176</span>
+                        <span>[CDEV] Chief Developer</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function loadTeamFromRoblox() {
+            try {
+                const response = await fetch("/api/team", {
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                });
+
+                const payload = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(payload.error || "Roblox sync failed");
+                }
+
+                if (!payload.members || !payload.members.length) {
+                    teamStatus.textContent = "Live sync is active, but no members currently match the configured role.";
+                    renderEmptyState("No one currently carries the configured Roblox role.");
+                    return;
+                }
+
+                teamGrid.innerHTML = payload.members.map(renderMemberCard).join("");
+                teamStatus.textContent = `Live from Roblox group ${payload.groupId} · synced role: ${payload.configuredRoles.join(", ")}`;
+            } catch (error) {
+                const isLocalPreview = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+                teamStatus.textContent = isLocalPreview
+                    ? "Live Roblox sync is ready, but the local Python preview does not run the /api endpoint."
+                    : "Live Roblox sync is currently unavailable.";
+
+                renderEmptyState(
+                    isLocalPreview
+                        ? "Deploy the site with the included serverless API to load the exact members for your Roblox role automatically."
+                        : error.message || "The Roblox team data could not be loaded."
+                );
+            }
+        }
+
+        loadTeamFromRoblox();
+    </script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kauri</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #10b981 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: white;
+            color: #064e3b;
+            font-weight: 700;
+        }
+
+        .hero {
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            animation: fadeInUp 0.9s ease-out 0.2s both;
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            opacity: 0.95;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #043f31;
+            color: white;
+            padding: 1.1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        .icon {
+            object-fit: contain;
+            transform-origin: center;
+            will-change: transform, filter;
+        }
+
+        .icon-nav {
+            width: 28px;
+            height: 28px;
+        }
+
+        .btn-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 0.8rem;
+        }
+
+        .hero-btn:hover {
+            background: #022a20;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .hero-btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            animation: fadeInUp 0.9s ease-out 0.4s both;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 2.5rem;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:active {
+            transform: translateY(-2px) scale(0.985);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        footer {
+            margin-top: 5rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-btn:hover .icon-kauri,
+        .card:hover .icon-kauri {
+            animation: kauriBloom 0.7s ease-out;
+        }
+
+        .hero-btn:active .icon-kauri,
+        .card:active .icon-kauri {
+            animation: kauriPress 0.28s ease-out;
+        }
+
+        .card:hover .icon-roblox {
+            animation: robloxHop 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .card:active .icon-roblox {
+            animation: robloxPress 0.24s ease-out;
+        }
+
+        .card:hover .icon-discord {
+            animation: discordPing 0.65s ease-in-out;
+        }
+
+        .card:active .icon-discord {
+            animation: discordPress 0.24s ease-out;
+        }
+
+        .card:hover .icon-tiktok {
+            animation: tiktokGlitch 0.55s steps(2, end);
+        }
+
+        .card:active .icon-tiktok {
+            animation: tiktokPress 0.24s ease-out;
+        }
+
+        @keyframes kauriBloom {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+            }
+            50% {
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 18px rgba(52, 211, 153, 1));
+            }
+        }
+
+        @keyframes kauriPress {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.9); }
+            100% { transform: scale(1.04); }
+        }
+
+        @keyframes robloxHop {
+            0% { transform: translateY(0) rotate(0deg); }
+            35% { transform: translateY(-10px) rotate(-10deg); }
+            70% { transform: translateY(0) rotate(10deg); }
+            100% { transform: translateY(-2px) rotate(0deg); }
+        }
+
+        @keyframes robloxPress {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(0.84) rotate(-8deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes discordPing {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-2px) rotate(-8deg); }
+            50% { transform: translateY(0) rotate(8deg) scale(1.08); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        @keyframes discordPress {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.88) rotate(-6deg); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes tiktokGlitch {
+            0% { transform: translateX(0) rotate(0deg); filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0)); }
+            25% { transform: translateX(-2px) rotate(-6deg); filter: drop-shadow(3px 0 0 rgba(37, 244, 238, 0.75)); }
+            50% { transform: translateX(2px) rotate(6deg); filter: drop-shadow(-3px 0 0 rgba(254, 44, 85, 0.75)); }
+            100% { transform: translateX(0) rotate(0deg); filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0)); }
+        }
+
+        @keyframes tiktokPress {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.86); }
+            100% { transform: scale(1.02); }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="active" style="display:flex;align-items:center;gap:0.6rem;">
+            <img src="kauri-logo.png" alt="Kauri" class="icon icon-nav">
+            Home
+        </a>
+        <a href="about.html">About</a>
+        <a href="roblox.html">Roblox</a>
+        <a href="discord.html">Discord</a>
+        <a href="follow.html">Follow</a>
+    </nav>
+
+    <div class="hero">
+        <h1>Welcome to Kauri</h1>
+        <p>Join our awesome community! We're a friendly group of gamers and creators who love to play Roblox, hang out on Discord, and share our adventures on social media.</p>
+        <a href="about.html" class="hero-btn">
+            <img src="kauri-logo.png" alt="Kauri" class="icon btn-icon icon-kauri">
+            Learn More
+        </a>
+    </div>
+
+    <div class="grid">
+        <a href="about.html" class="card">
+            <img src="kauri-logo.png" alt="Kauri" class="icon card-icon icon-kauri">
+            <h3>About Us</h3>
+            <p>Find out who we are and what we're all about!</p>
+        </a>
+        <a href="roblox.html" class="card">
+            <img src="roblox-icon.png" alt="Roblox" class="icon card-icon icon-roblox">
+            <h3>Roblox</h3>
+            <p>Play Roblox games with us and join our group!</p>
+        </a>
+        <a href="discord.html" class="card">
+            <img src="discord-icon.png" alt="Discord" class="icon card-icon icon-discord">
+            <h3>Discord</h3>
+            <p>Hang out and chat with the community!</p>
+        </a>
+        <a href="follow.html" class="card">
+            <img src="tiktok-icon.png" alt="TikTok" class="icon card-icon icon-tiktok">
+            <h3>Follow Us</h3>
+            <p>Stay updated on social media!</p>
+        </a>
+    </div>
+
+    <footer>
+        &copy; 2026 Kauri. All rights reserved.
+    </footer>
+</body>
+</html>

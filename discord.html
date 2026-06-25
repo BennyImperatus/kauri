@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kauri - Discord</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #10b981 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: white;
+            color: #064e3b;
+            font-weight: 700;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 900px;
+            width: 100%;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.9s ease-out 0.2s both;
+        }
+
+        .content h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+
+        .content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #043f31;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .icon {
+            object-fit: contain;
+            transform-origin: center;
+            will-change: transform, filter;
+        }
+
+        .icon-nav {
+            width: 28px;
+            height: 28px;
+        }
+
+        .btn-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .btn:hover {
+            background: #022a20;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .img-card {
+            position: relative;
+            border-radius: 22px;
+            overflow: hidden;
+            min-height: 260px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 18px 52px rgba(0, 0, 0, 0.26);
+            isolation: isolate;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .img-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 34%),
+                radial-gradient(circle at top right, rgba(99, 102, 241, 0.4), transparent 44%),
+                radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.28), transparent 42%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .img-card::after {
+            content: "";
+            position: absolute;
+            inset: -35%;
+            background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.26) 50%, transparent 68%);
+            transform: translateX(-120%) rotate(12deg);
+            opacity: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .img-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 72px rgba(0, 0, 0, 0.34);
+            border-color: rgba(255, 255, 255, 0.38);
+        }
+
+        .img-card:hover::after {
+            animation: imageSweep 0.95s ease-out forwards;
+        }
+
+        .img-card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+            transform: scale(1.01);
+            filter: saturate(1.1) contrast(1.05);
+            transition: transform 0.45s ease, filter 0.45s ease;
+        }
+
+        .img-card:hover img {
+            transform: scale(1.08);
+            filter: saturate(1.2) contrast(1.08);
+        }
+
+        .img-tag {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 3;
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(49, 46, 129, 0.66);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .img-caption {
+            position: absolute;
+            left: 1rem;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 3;
+            padding: 1rem 1.1rem;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(49, 46, 129, 0.08), rgba(17, 24, 39, 0.84));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .img-caption strong {
+            display: block;
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+
+        .img-caption span {
+            display: block;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            opacity: 0.92;
+        }
+
+        footer {
+            margin-top: 3rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn:hover .icon-discord {
+            animation: discordPing 0.65s ease-in-out;
+        }
+
+        .btn:active .icon-discord {
+            animation: discordPress 0.24s ease-out;
+        }
+
+        @keyframes kauriPulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+            }
+            50% {
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 16px rgba(16, 185, 129, 0.9));
+            }
+        }
+
+        @keyframes discordPing {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-2px) rotate(-8deg); }
+            50% { transform: translateY(0) rotate(8deg) scale(1.08); }
+            75% { transform: translateY(-1px) rotate(-4deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        @keyframes discordPress {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.88) rotate(-6deg); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes imageSweep {
+            0% {
+                transform: translateX(-120%) rotate(12deg);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(120%) rotate(12deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .content {
+                padding: 2rem;
+            }
+            .content h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" style="display:flex;align-items:center;gap:0.6rem;">
+            <img src="kauri-logo.png" alt="Kauri" class="icon icon-nav" style="animation:kauriPulse 2s ease-in-out infinite;">
+            Home
+        </a>
+        <a href="about.html">About</a>
+        <a href="roblox.html">Roblox</a>
+        <a href="discord.html" class="active">Discord</a>
+        <a href="follow.html">Follow</a>
+    </nav>
+
+    <div class="content">
+        <h1>Discord</h1>
+        <p>Our Discord server is where the magic happens! Chat with friends, join voice channels for gaming sessions, get announcements about events, and be part of our awesome community. It's the perfect place to hang out and make new friends.</p>
+        <a href="#" class="btn">
+            <img src="discord-icon.png" alt="Discord" class="icon btn-icon icon-discord">
+            Join Our Discord Server
+        </a>
+        <div class="image-grid">
+            <div class="img-card">
+                <span class="img-tag">Live Chat</span>
+                <img src="https://coreva-normal.trae.ai/api/ide/v1/text_to_image?prompt=Discord%20server%20chat%20interface%20community%20conversation&image_size=square_hd" alt="Discord">
+                <div class="img-caption">
+                    <strong>Server Energy</strong>
+                    <span>Mehr Tiefe und ein violetter Neon-Look, der besser zu Discord passt.</span>
+                </div>
+            </div>
+            <div class="img-card">
+                <span class="img-tag">Squad Time</span>
+                <img src="https://coreva-normal.trae.ai/api/ide/v1/text_to_image?prompt=friends%20gaming%20together%20online%20voice%20chat%20happy%20team&image_size=square_hd" alt="Gaming Together">
+                <div class="img-caption">
+                    <strong>Voice Session</strong>
+                    <span>Das Bild fuehlt sich jetzt mehr wie ein Highlight-Moment aus einer aktiven Community an.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Kauri. All rights reserved.
+    </footer>
+</body>
+</html>
