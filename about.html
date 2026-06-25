@@ -241,6 +241,24 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
+        .member-card.has-background {
+            background: rgba(7, 18, 14, 0.68);
+        }
+
+        .member-card-bg {
+            position: absolute;
+            inset: 0;
+            background-image: var(--member-bg-image);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            transform: scale(1.04);
+            opacity: 0.46;
+            filter: saturate(1.05) contrast(1.05);
+            transition: transform 0.35s ease, opacity 0.35s ease;
+            pointer-events: none;
+        }
+
         .member-card::before {
             content: "";
             position: absolute;
@@ -251,10 +269,22 @@
             pointer-events: none;
         }
 
+        .member-card.has-background::before {
+            background:
+                linear-gradient(180deg, rgba(6, 12, 10, 0.16), rgba(6, 12, 10, 0.76)),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 42%),
+                radial-gradient(circle at top right, rgba(16, 185, 129, 0.22), transparent 45%);
+        }
+
         .member-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
             border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .member-card:hover .member-card-bg {
+            transform: scale(1.1);
+            opacity: 0.58;
         }
 
         .member-card.empty {
@@ -514,9 +544,18 @@
                 .toUpperCase() || "RB";
         }
 
+        function toCssUrl(value) {
+            return String(value || "").replace(/"/g, "%22");
+        }
+
         function renderMemberCard(member) {
             const primaryRole = member.roles[0] || {};
             const accentClass = primaryRole.accent ? ` ${primaryRole.accent}` : "";
+            const cardBackgroundImage = member.backgroundImage || primaryRole.backgroundImage || "";
+            const hasBackground = Boolean(cardBackgroundImage);
+            const backgroundStyle = hasBackground
+                ? ` style="--member-bg-image: url(&quot;${escapeHtml(toCssUrl(cardBackgroundImage))}&quot;);"`
+                : "";
             const avatar = member.avatarUrl
                 ? `<img src="${escapeHtml(member.avatarUrl)}" alt="${escapeHtml(member.displayName)}">`
                 : escapeHtml(getInitials(member.displayName || member.username));
@@ -525,7 +564,8 @@
                 .join("");
 
             return `
-                <div class="member-card">
+                <div class="member-card${hasBackground ? " has-background" : ""}"${backgroundStyle}>
+                    ${hasBackground ? '<div class="member-card-bg"></div>' : ""}
                     <div class="member-top">
                         <div class="member-avatar${accentClass}">${avatar}</div>
                         <div class="member-info">
@@ -534,7 +574,7 @@
                             <span class="member-username">@${escapeHtml(member.username)}</span>
                         </div>
                     </div>
-                    <p class="member-desc">${escapeHtml(primaryRole.description || "Live synced from Roblox group roles.")}</p>
+                    <p class="member-desc">${escapeHtml(member.profileDescription || primaryRole.description || "Live synced from Roblox group roles.")}</p>
                     <div class="member-tags">${roleTags}</div>
                 </div>
             `;
