@@ -1,11 +1,19 @@
 {
   "groupId": 35402176,
+  "members": [
+    {
+      "username": "Benny_YT25",
+      "backgroundImage": "https://cdn.discordapp.com/attachments/1272198605100552304/1519779075730833591/content.png?ex=6a3ecc0f&is=6a3d7a8f&hm=692e5c29e3c1b83019e05ab017d6dcabd0c09ce575854880162c6c8940aa41f5&",
+      "description": ""
+    }
+  ],
   "roles": [
     {
       "name": "[CDEV] Chief Developer",
       "label": "Chief Developer",
       "accent": "roblox",
-      "description": "Builds core systems, tools, and technical features for the community."
+      "description": "Builds core systems, tools, and technical features for the community.",
+      "backgroundImage": ""
     }
   ]
 }
