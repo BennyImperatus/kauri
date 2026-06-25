@@ -78,12 +78,28 @@ function sendJson(res, statusCode, payload) {
   res.end(JSON.stringify(payload));
 }
 
+function findMemberConfig(configuredMembers, user) {
+  return (
+    configuredMembers.find(
+      (member) =>
+        (member.userId && Number(member.userId) === Number(user.userId)) ||
+        (member.username &&
+          String(member.username).toLowerCase() ===
+            String(user.username).toLowerCase())
+    ) || null
+  );
+}
+
 module.exports = async (req, res) => {
   if (req.method && req.method !== "GET") {
     return sendJson(res, 405, { error: "Method not allowed" });
   }
 
-  const { groupId, roles: configuredRoles } = config;
+  const {
+    groupId,
+    roles: configuredRoles,
+    members: configuredMembers = []
+  } = config;
 
   try {
     const roleDirectory = await getRoleDirectory(groupId);
@@ -103,20 +119,32 @@ module.exports = async (req, res) => {
       const users = await getUsersForRole(groupId, matchedRole.id);
 
       for (const user of users) {
+        const memberConfig = findMemberConfig(configuredMembers, user);
         const existing = membersByUserId.get(user.userId) || {
           userId: user.userId,
           username: user.username,
           displayName: user.displayName || user.username,
           hasVerifiedBadge: Boolean(user.hasVerifiedBadge),
           avatarUrl: "",
-          roles: []
+          roles: [],
+          backgroundImage: memberConfig?.backgroundImage || "",
+          profileDescription: memberConfig?.description || ""
         };
+
+        if (memberConfig?.backgroundImage) {
+          existing.backgroundImage = memberConfig.backgroundImage;
+        }
+
+        if (memberConfig?.description) {
+          existing.profileDescription = memberConfig.description;
+        }
 
         existing.roles.push({
           name: configuredRole.name,
           label: configuredRole.label || configuredRole.name,
           accent: configuredRole.accent || "default",
-          description: configuredRole.description || ""
+          description: configuredRole.description || "",
+          backgroundImage: configuredRole.backgroundImage || ""
         });
 
         membersByUserId.set(user.userId, existing);
@@ -150,4 +178,3 @@ module.exports = async (req, res) => {
     });
   }
 };
-
