@@ -1,5 +1,5 @@
 {
-  "groupId": 35402176,
+  "groupId": 34776903,
   "members": [
     {
       "username": "Benny_YT25",
@@ -9,10 +9,16 @@
   ],
   "roles": [
     {
-      "name": "[CDEV] Chief Developer",
-      "label": "Chief Developer",
+      "name": "Trainee Moderator",
+      "label": "Trainee Moderator",
       "accent": "roblox",
-      "description": "Builds core systems, tools, and technical features for the community.",
+      "description": "",
+      "backgroundImage": ""
+    {
+      "name": "Junior Moderator",
+      "label": "Junior Moderator",
+      "accent": "roblox",
+      "description": "",
       "backgroundImage": ""
     }
   ]
