@@ -21,6 +21,90 @@
       "accent": "roblox",
       "description": "",
       "backgroundImage": ""
+    },
+    {
+      "name": "Senior Moderator",
+      "label": "Senior Moderator",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Trainee Administrator",
+      "label": "Trainee Administrator",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Junior Administrator",
+      "label": "Junior Administrator",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Senior Administrator",
+      "label": "Senior Administrator",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Staff Instructor",
+      "label": "Staff Instructor",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Senior Staff Instructor",
+      "label": "Senior Staff Instructor",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Management Team",
+      "label": "Management Team",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Leadership Team",
+      "label": "Leadership Team",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Alternate Officer",
+      "label": "Alternate Officer",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Executive Officer",
+      "label": "Executive Officer",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Commanding Officer",
+      "label": "Commanding Officer",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
+    },
+    {
+      "name": "Owner",
+      "label": "Project Owner",
+      "accent": "roblox",
+      "description": "",
+      "backgroundImage": ""
     }
   ]
 }
